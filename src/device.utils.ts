@@ -13,6 +13,8 @@ import Ganglion from './ganglion.js';
 //     {ch: 3, tag: "C4",  analyze:true}
 // ];
 
+const contentHints = ["FP1", "FP2", "C3", "C4"]
+
 // ---------- Pre-Declared Device Class ----------
 export const device = Ganglion
 
@@ -23,9 +25,8 @@ export const onconnect = async (dataDevice: any) => {
     await device.start()
 
     device.stream.subscribe((o:any) => {
-        // let latest: any[] = [,,,]
-        // latest[o.electrode] = o.samples
-        // Timestamps: o.timestamp
-        dataDevice.ondata(o.data)
+        let latest: {[x:string]:any} = {}
+        o.data.forEach((v:any,i:number) => latest[contentHints[i]] = v)
+        dataDevice.ondata(latest, o.timestamp)
     })
 }
