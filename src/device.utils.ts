@@ -1,19 +1,31 @@
-// Derived from https://github.com/urish/muse-js
-// Garrett Flynn, November 13 2021
-import * as musejs from 'muse-js';
+// Garrett Flynn, March 22 2022
+import Ganglion from './ganglion.js';
 
-// Pre-Declared Device Class
-export const device = musejs.MuseClient
 
-// After Device Connect
+// ---------- Additional Info ----------
+// this.info.sps = 200;
+// this.info.deviceType = 'eeg';
+
+// info.eegChannelTags = [
+//     {ch: 0, tag: "FP1", analyze:true},
+//     {ch: 1, tag: "FP2", analyze:true},
+//     {ch: 2, tag: "C3",  analyze:true},
+//     {ch: 3, tag: "C4",  analyze:true}
+// ];
+
+// ---------- Pre-Declared Device Class ----------
+export const device = Ganglion
+
+// ---------- After Ganglion Connection ----------
 export const onconnect = async (dataDevice: any) => {
 
     let device = dataDevice.device
     await device.start()
 
-    device.eegReadings.subscribe((o:any) => {
-        let latest: any[] = [,,,]
-        latest[o.electrode] = o.samples
-        dataDevice.ondata(latest)
+    device.stream.subscribe((o:any) => {
+        // let latest: any[] = [,,,]
+        // latest[o.electrode] = o.samples
+        // Timestamps: o.timestamp
+        dataDevice.ondata(o.data)
     })
 }

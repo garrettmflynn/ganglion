@@ -17,22 +17,19 @@ import commonjs from '@rollup/plugin-commonjs';
  * @type {import('rollup').RollupOptions}
  */
 const config = {
- input: './src/index.ts', // our source file
- output: [
-  {
-   file: pkg.main,
-   format: 'cjs'
-  },
-  {
-   file: pkg.module,
-   format: 'es' // the preferred format
-  },
-  {
-   file: pkg.browser,
-   format: 'iife',
-   name: 'muse' // the global which can be used in a browser
-  }
- ],
+  input: './src/index.ts', // our source file
+  output: [
+   {
+     file: pkg.main,
+     format: 'umd', // the preferred format
+     exports: 'named',
+     name: 'ganglion'
+   },
+   {
+    file: pkg.module,
+    format: 'es' // the preferred format
+   }
+  ],
 //  external: [
 //   ...Object.keys(pkg.dependencies || {})
 //  ],
@@ -40,8 +37,8 @@ const config = {
     commonjs(),
     node_resolve(),
     babel({
-        babelHelpers: 'bundled',
-        plugins: ["@babel/plugin-proposal-class-properties"]
+        babelHelpers: 'runtime',
+        plugins: ["@babel/plugin-proposal-class-properties", "@babel/plugin-transform-runtime"],
     }),
     css(),
     // Resolve bare module specifiers to relative paths
