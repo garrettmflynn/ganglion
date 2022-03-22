@@ -1,6 +1,6 @@
 {
   "name": "@brainsatplay/ganglion",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Ganglion Driver for the Data Capture and Streams API",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
